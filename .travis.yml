@@ -6,19 +6,16 @@ services:
 language: generic
 
 env:
-- DISTRI=ubuntu DESKTOP=xfce
-- DISTRI=ubuntu DESKTOP=icewm
-- DISTRI=centos DESKTOP=xfce
-- DISTRI=centos DESKTOP=icewm
+  matrix:
+    - DISTRI=ubuntu DESKTOP=xfce
+    - DISTRI=ubuntu DESKTOP=icewm
+    #- DISTRI=centos DESKTOP=xfce
+    #- DISTRI=centos DESKTOP=icewm
+  global:
+    secure: KgnegCNFCSwLsqTrLRNSbWZOom2lwVVVavv//7BIt1ndBx4ri6qhq/i+DCeSXv2NwfWfjWPvjBeZy00AAmlN/rzCvoMeycpG5ZuxwelbPDk65x+ExMxZwZ7p/1YLsVdM3VQNAZlr/AGMHNgafF0z4k96F686qqKF9C7hBNP/A18igalx255gW9S9G+UMHecH/udRcXvTyzFfHzeSnR9HEjYMH7wSJ82sefCEEgzFq6qowp6IAblYDJjbVJM/yuuzNRAdMUZp5AmlMXa8tDfPLwPLZiWdMmyp3coZPIpj0o0nSVcoZ0wz0WQX8TQ76USXFiEeFTp/QL76uzWQCYoIAEUudQQrWJxek1SJEPiaqOxYcyc1qpG+oxDeWMLUh1y1rw3lxLbvebb7nOOfrT5DyAB8Vv2waLXwCkqjJ+L4j/VYKKC+fYouKyALCgtO1AY05jratfvP8Zqh3hYOdst8727dg3+OEwYCqxAhv18KunlKUlVaxEs3DcyOutIC1mtbby5bt3XY9BcOZ+sIANCQSkr57mBUf1VlH/Ao86kYYQ3bHCV4sZiCcmn1s/eAVYoGQR8DpLEtuNjXwSSTkoLaSy+ysuiS9uiBMBJHwt+JTHxghfia3AO19T9StvKKGLrtkLlzZdJf7EbwFYqrtEX6dDEuk7hWJKkdBDRgmZY0BYQ=
 
 script:
   - docker build -t local/${DISTRI}-${DESKTOP}-vnc -f ./Dockerfile.${DISTRI}.${DESKTOP}.vnc .
-after_success:
-  - bash .build/trigger_dockerhub.sh ${DISTRI}-${DESKTOP}-vnc
 
-## use standard notification to committer
-#notifications:
-#    recipients:
-#      - "testautomatisierung@consol.de"
-#    on_success: change # default: change
-#    on_failure: always # default: always
+after_success:
+  - bash .build/trigger_dockerpush.sh ${DISTRI}-${DESKTOP}-vnc
