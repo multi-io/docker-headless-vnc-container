@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+exit 0 # installation not adapted to ubuntu 20.04, snap needed
 ### every exit != 0 fails the script
 set -e
 
